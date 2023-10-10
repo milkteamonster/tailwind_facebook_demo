@@ -1,61 +1,99 @@
-// import $ from 'jquery'
 import './index.css'
 
-const loginBtn = document.querySelector("#login")
-const window = document.querySelector("#window")
-const closeBtn = document.querySelector("#close")
+const plusBtn = document.querySelector("#plus-btn")
+const msgBtn = document.querySelector("#msg-btn")
+const notificationBtn = document.querySelector("#notification-btn")
+const moreBtn = document.querySelector("#more-btn")
 
-loginBtn.addEventListener("click", ()=>{
-  window.classList.remove('opacity-0', 'pointer-events-none')
-})
+const plusPanel = document.querySelector("#plus-panel")
+const msgPanel = document.querySelector("#msg-panel")
+const notificationPanel = document.querySelector("#notification-panel")
+const morePanel = document.querySelector("#more-panel")
 
-closeBtn.addEventListener("click", ()=>{
-  window.classList.add('opacity-0', 'pointer-events-none')
-})
+const panels = [plusPanel, msgPanel, notificationPanel, morePanel]
 
-
-function renderList(id) {
-  const targetUl = document.getElementById(id);
-
-  let svgColor = "text-primary";
-  let textColor = "text-salte-900";
-
-  if (id === "list2") {
-    svgColor = "text-white";
-    textColor = "text-white"
-  }
-
-  const templateLi = `
-    <li class="flex items-center mt-6 ${textColor}"">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-6 w-6 mr-4 stroke-current ${svgColor}"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-        /></svg
-      >item bla bla bla bla
-    </li>
-  `;
-
-  let htmlStr = "";
-
-  for (let i = 0; i < 4; i++) {
-    htmlStr = htmlStr + templateLi;
-  }
-  
-  targetUl.innerHTML = htmlStr;
+function openPanel(index){
+    panels.forEach((p, idx)=>{
+        if (index === idx) { //若每個按鈕裡的index參數等於idx,就打開對應的Panel
+            p.classList.remove('hidden')
+            return;
+        }
+        if (p.classList.contains('hidden')){ //若已經有'hidden'就什麼也不做
+            return;
+        }
+        p.classList.add('hidden') //最後要收起來，不然點擊時會重疊
+    })
 }
 
-renderList("list1");
-renderList("list2");
-renderList("list3");
+//Panel點擊後防止因為window有加hidden而被關閉
+// plusPanel.addEventListener("click", (e)=>{
+//     e.stopPropagation()
+//   })
+// msgPanel.addEventListener("click", (e)=>{
+//   e.stopPropagation()
+// })
+// notificationPanel.addEventListener("click", (e)=>{
+//   e.stopPropagation()
+// })
+// morePanel.addEventListener("click", (e)=>{
+//   e.stopPropagation()
+// })
+// ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+//可以寫成forEach
+panels.forEach(p=>{
+    p.addEventListener("click", (e)=>{
+        e.stopPropagation() 
+    })
+})
 
+window.addEventListener("click", ()=>{
+  plusPanel.classList.add("hidden")
+  msgPanel.classList.add("hidden") 
+  notificationPanel.classList.add("hidden") 
+  morePanel.classList.add("hidden")   
+})
+//plus組
+//按鈕點擊後移除hidden，顯示出Panel
+plusBtn.addEventListener("click", (e)=>{
+  e.stopPropagation() //不要向父層通知，讓外層不要有反應
+  //plusPanel.classList.remove("hidden")
+  openPanel(0)
+})
 
+//Panel點擊後防止因為window有加hidden而被關閉
+// plusPanel.addEventListener("click", (e)=>{
+//     e.stopPropagation()
+//   })
 
+//msg組
+msgBtn.addEventListener("click", (e)=>{
+  e.stopPropagation()
+  //msgPanel.classList.remove("hidden")
+  openPanel(1)
+})
+
+// msgPanel.addEventListener("click", (e)=>{
+//   e.stopPropagation()
+// })
+
+//notification組
+notificationBtn.addEventListener("click", (e)=>{
+  e.stopPropagation()
+  //notificationPanel.classList.remove("hidden")
+  openPanel(2)
+})
+
+// notificationPanel.addEventListener("click", (e)=>{
+//   e.stopPropagation()
+// })
+
+//more組
+moreBtn.addEventListener("click", (e)=>{
+  e.stopPropagation()
+  //morePanel.classList.remove("hidden")
+  openPanel(3)
+})
+
+// morePanel.addEventListener("click", (e)=>{
+//   e.stopPropagation()
+// })
