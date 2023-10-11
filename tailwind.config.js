@@ -1,11 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  purge: ['./src/**/*.html'],
+  purge: ['./src/**/*.html','./src/**/*.js'],
   mode: 'jit',
   darkMode: 'class', //media是依照電腦原本的設定 or false, class手動自己決定
   content: [],
   theme: {
     extend: {
+      spacing: {
+        'main-span': '72px'
+      },
       colors: {
         'fb-bg': '#18191a',
         'fb-header': '#242526',
